@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% if template_choice.template_choice == '1' or not template_choice %}
+
+{% include 'template1.html' %}
+
+
+{% elif template_choice.template_choice == '2' %}
+{% include 'template2.html' %}
+
+{% elif template_choice.template_choice == '3' %}
+{% include 'template3.html' %}
+
+
+
+{% elif template_choice.template_choice == '4' %}
+{% include 'template4.html' %}
+        {% endif %}
+    </html>

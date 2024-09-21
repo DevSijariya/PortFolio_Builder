@@ -1,0 +1,347 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="{% static 'portfolio.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'resume.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+    <style>
+        :root {
+            --main-color: {
+                    {
+                    template_choice.color_choice
+                }
+            }
+
+            ;
+        }
+
+        .dark-mode {
+            background-color: var(--bg-color-dark-mode);
+            /* Use the stored darkened color */
+            --hv-color: var(--bg-color-dark-mode);
+        }
+
+            {
+            % for skill in skills_details %
+        }
+
+        @keyframes html {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: {
+                        {
+                        skill.level
+                    }
+                }
+
+                ;
+            }
+        }
+
+            {
+            % endfor %
+        }
+    </style>
+    <header class="header">
+        <a href="#" class="logo">Portfolio</a>
+
+        <nav class="navbar">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            {% if services %}
+            <a href="#services">Services</a>{% endif %}
+            <a href="#portfolio">Projects</a>
+            <a href="#resume">Resume</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="bx bx-moon" id="darkmode-icon"></div>
+        <div class="info-circle">
+            <a href="{% url 'home' %}">
+                <i class="bx bx-info-circle" id="info"></i>
+            </a>
+        </div>
+
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+    <br><br>
+    <section class="home" id="home">
+        <div class="home-content col-md-6" style="margin-left: 5%;margin-right: 5%;">
+            <br>
+            <h3>Hello, It's Me</h3>
+            <h1>{{details.name}}</h1>
+            <p style="text-align: justify;">{{details.aboutuser}}</p>
+            <div class="social-media">
+                {% for link in link %}
+
+                <!-- Similarly, add links for other platforms -->
+
+                <a href="{{link.github}}" target="_blank"><i class="bx bxl-github"></i></a>
+                <a href="{{link.linkdin}}" target="_blank"><i class="bx bxl-linkedin"></i></a>
+                {% if link.facebook %}
+                <a href="{{link.facebook}}" target="_blank"><i class="bx bxl-facebook"></i></a>
+                {% endif %} {% if link.instagram %}
+                <a href="{{link.instagram}}" target="_blank"><i class="bx bxl-instagram"></i></a>
+                {% endif %} {% endfor %}
+            </div>
+            {% if details.Resume %}
+            <a href="{{details.Resume.url}}" target="_blank" class="btn">Download CV</a>
+            {% else %}
+            <a href="{% url 'generate_pdf' user.username %}" class="btn">Download CV</a>
+            {% endif %}
+            {% if details.photo %}
+            <img src="{{ MEDIA_URL }}{{ details.photo.url }}" alt="Profile Image" id="profileImage" />
+            {% endif %}
+
+
+        </div>
+
+        <div class="home-block">
+            <div class="find-me">
+                <h2>Find Me at</h2>
+                <ul><br>
+                    <li>
+                        <p><strong>Number : </strong>{{details.mobile_number}}</p>
+                    </li>
+                    <li>
+                        <p><strong>E-mail : </strong>{{details.email}}</p>
+                    </li>
+                    <li>
+                        <p><strong>Address : </strong>{{details.address}}</p>
+                    </li>
+                    <a href="#contact"> <i class='bx bx-phone-call'></i></a>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-image">
+            <div class="box1"></div>
+            {% if details.photo %}
+            <div class="about-img">
+
+                <img src="{{ MEDIA_URL }}{{ details.photo.url }}" alt="Profile-Image" id="profileImage" />
+
+
+            </div>
+            {% endif %}
+        </div>
+        <div class="about-content">
+            <h2 class="heading">About <span> Me</span></h2>
+            <p id="short-description" style="text-align: justify;">
+                {{details.User_description | truncatewords:100}}
+            </p>
+            <p id="full-description" style="text-align: justify; display: none;">
+                {{details.User_description }}
+            </p>
+            <a href="#" id="read-more-btn" class="btn">Read More</a>
+        </div>
+    </section>
+    {% if services %}
+    <section class="services" id="services">
+        <h2 class="heading">My <span>Services <i class='bx bx-briefcase'></i></span></h2>
+        <div class="services-container">
+            {% for s in services|slice:":8" %}
+            <div class="service-box" style="height:35rem;">
+
+                <h3>{{s.title}}</h3>
+                <p>
+                    {{ s.description |truncatewords:100 }}
+                </p>
+
+
+                <a href="#contact" class="btn">Hire Me</a>
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </section>
+    {% endif %}
+    {% if project_details %}
+    <section class="portfolio" id="portfolio">
+        <h2 class="heading">Latest <span>Project</span></h2>
+        <div class="portfolio-container">
+
+            {% for p in project_details|slice:":6" %}
+
+            <div class="portfolio-box">
+
+                <!-- <img src="{% static 'images/proj1.jpg' %}"> -->
+
+                <div class="portfolio-layer">
+
+                    <h4>{{p.title}}</h4>
+                    <text>{{p.start_date}} to
+                        {% if p.end_date %}
+                        {{p.end_date}}</text>
+                    {% else %}
+                    Present</text>
+                    {% endif %}
+
+                    <p>{{p.description| truncatewords:80}}</p>
+                    <a href="{{p.link}}">button</a>
+                    {% if p.link %}<a href="{{p.link}}" target="_blank"> <i class='bx bx-link'></i></a>{% endif %}
+                </div>
+            </div>
+
+
+            {% endfor %}
+            {% if project_details|length > 6 %}
+            <style>
+                @media screen and (min-width: 681px) {
+                    .bttn {
+                        display: block;
+                    }
+                }
+            </style>
+            {% elif project_details|length > 3 %}
+            <style>
+                @media screen and (max-width: 680px) {
+                    .bttn {
+                        display: block;
+                    }
+                }
+            </style>
+            {% endif %}
+
+            <div class="bttn">
+                <a href="#" class="btn" style="width: 20rem;">View More</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <div class="overlay-project" id="projectOverlay">
+        <!-- Project details will be displayed here -->
+    </div>
+
+
+    <section class="resume" id="resume">
+        <h2 class="heading">My <span>Resume</span></h2><br>
+        <div class="resume-container">
+            <div class="resume-head">
+
+                <button class="r1" onclick="showSkills()">Skills</button>
+                <!-- <button class="r2" onclick="showEducation()">Education Details</button> -->
+            </div>
+
+            <!-- Add IDs to identify each box -->
+            <div class="r-box1 skills_section" id="skillsBox">
+
+                <div class="skills_head">
+                    <h2>My <span>Skills</span></h2>
+                    <p>Here is my skills to represent my Expertise</p>
+                </div>
+
+                <div class="skills_main">
+                    {% for skill in skills_details %}
+                    <div class="skill_bar">
+                        <div class="info">
+                            <p>{{skill.skills}}</p>
+                            <P>{{skill.level}}%</P>
+                        </div>
+                        <div class="bar">
+                            <span class="html" style="width : {{skill.level}}%;"></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- <div class="r-box2 education-section" id="educationBox">
+    <div class="skills_head">
+        <h2>My <span>Education</span></h2>
+    </div>
+    <table >
+        <thead >
+            <tr >
+              <th >Qualification</th>
+              <th>Board / University</th>
+              <th>School/College</th>
+              <th>Passout</th>
+              <th>CGPA / Percentage</th>
+            </tr>
+        </thead>
+    </table>
+        {% for edu in education_details %}
+        <table>
+          <tr>
+            <td>{{edu.degree}}</td>
+            <td>{{edu.university}}</td>
+            <td>{{edu.college}}</td>
+            <td>{{edu.year_of_passing}}</td>
+            {% if edu.Cgpa > 10 %}
+            <td>{{edu.Cgpa}} %</td>
+            {% else %}
+            <td>{{edu.Cgpa}}</td>
+            {% endif %}
+          </tr>
+        </table>
+  
+        {% endfor %}
+    <div class="extra"></div>
+</div> -->
+        </div>
+        </div>
+    </section>
+    <!-- <div class="testimonial-container">
+        <h2 class="heading">Valuable <span>Testimonial</span></h2>
+        <div class="testimonial-wrapper">
+            <div class="testimonial-box mySwiper">
+                <div class="testimonial-content swiper-wrapper">
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="{% static 'images/proj1.jpg' %}">
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="{% static 'images/PROJ2.jpg' %}">
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="{% static 'images/proj1.jpg' %}">
+                    </div>
+                </div>
+
+
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div> -->
+
+    <section class="contact" id="contact">
+        <h2 class="heading">Contact <span>Me <i class='bx bx-phone-call'></i></span></h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-box">
+
+                {{form}}
+            </div>
+            <br><input type="submit" value="Send Message" class="btn">
+        </form>
+    </section>
+
+    <div class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2024 by Sanskar || All rights are reserved.</p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#home"> <i class="bx bx-up-arrow-alt"></i></a>
+        </div>
+    </div>
+
+    <script src="{% static 'javascript/temp1.js' %}"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
