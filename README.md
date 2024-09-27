@@ -1,4 +1,4 @@
-Django Portfolio Builder
+#Django Portfolio Builder
 Overview
 The Django Portfolio Builder is a full-stack web application designed to help users create a personalized portfolio site. Built using Django, this project allows users to dynamically manage and display their skills, projects, and professional details. It integrates a PostgreSQL database for data storage and uses HTML, CSS, and JavaScript for the frontend.
 
